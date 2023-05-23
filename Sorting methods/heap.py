@@ -1,6 +1,5 @@
 """
-ALGORITMO DI HEAP-SORT
-
+ALGORITMO HEAP-SORT
 """
 def get_right_child(index):
     """
