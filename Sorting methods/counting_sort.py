@@ -1,6 +1,6 @@
 def counting_sort(A):
     k = max(A)
-    B = [0] * k
+    B = [0] * (k + 1)
     result = [0] * len(A)
 
     # conta le occorrentze
@@ -8,14 +8,14 @@ def counting_sort(A):
         B[A[i] - 1] += 1
 
     # sommo ogni elemento con il suo precedente
-    for i in range(1, k):
+    for i in range(1, len(B):
         B[i] += B[i - 1]
 
     for i in range(len(A) - 1, -1, -1):
-        result[B[A[i] - 1] - 1] = A[i]
+        result[B[A[i]] - 1] = A[i]
         B[A[i] - 1] -= 1
-        pass
-    print(result)
+        
+    return result
 
 
 def main():
