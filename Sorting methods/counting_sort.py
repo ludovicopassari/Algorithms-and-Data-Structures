@@ -1,27 +1,37 @@
 def counting_sort(A):
+    """  
+    Implementazione dell'algoritmo di counting sort.
+
+    Args: La funzione prende in input un array da ordinare con elementi compresi nell'intervallo 0 < x < n
+
+    Return: Ritorna l'array ordinato.
+
+    """
+    #elemento massimo all'interno dell'array di input
     k = max(A)
+    #crea un array dentro cui sono presenti i conteggi delle occorrenze
     B = [0] * (k + 1)
-    result = [0] * len(A)
+    res= [0]  * len(A)
 
-    # conta le occorrentze
+    #conto le occorrenze
     for i in range(len(A)):
-        B[A[i] - 1] += 1
+        B[A[i]]+=1
+    
+    #somma l'elemento i-esimo con l'elemento i-1 esimo
+    for i in range(1,len(B)):
+        B[i] += B[i-1]
 
-    # sommo ogni elemento con il suo precedente
-    for i in range(1, len(B):
-        B[i] += B[i - 1]
-
-    for i in range(len(A) - 1, -1, -1):
-        result[B[A[i]] - 1] = A[i]
-        B[A[i] - 1] -= 1
-        
-    return result
-
+    for i in range(len(A)-1,-1,-1):
+        res[B[A[i]]-1] = A[i]
+        B[A[i]] -= 1  
+    
+    return res
 
 def main():
-    data = [7, 2, 2, 7, 7, 1, 4, 5, 3, 2]
-    counting_sort(data)
+    unsorted_numbers = [2, 10, 11, 8, 6]
 
+    print("Unsorted data --> ", unsorted_numbers)
+    print("Sorted data --> ", counting_sort(unsorted_numbers))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
