@@ -1,16 +1,23 @@
 """
 ALGORITMO HEAP-SORT
 """
+
 def get_right_child(index):
     """
-    Restituisce l'indice del figlio destro
+    Args: La funzione prende in input l'indice di un nodo di cui si vuole conoscere il figlio destro.
+
+    Return: Ritrorna l'indice del figlio destro del nodo ad indice 'i'.
+
     """
     return (index * 2) + 2
 
 
 def get_left_child(index):
     """
-    Restituisce l'indice del figlio sinitro
+    Args: La funzione prende in input l'indice di un nodo di cui si vuole conoscere il figlio sinitro.
+
+    Return: Ritorna l'indice del figlio sinistro del nodo all'indice 'i'.
+
     """
     return (index * 2) + 1
 
@@ -88,3 +95,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
