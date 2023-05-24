@@ -44,7 +44,7 @@ def dijkstra(self,start_node,end_node):
                     priority_queue.append((evaluate_distance,neighbor))
             print(pathes)
                 
-                
+        #CALCOLO PATH  
         path=[end_node]
         current = end_node
 
