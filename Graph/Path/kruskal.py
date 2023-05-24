@@ -1,4 +1,8 @@
-"""  
+""" 
+ 
+ALGORITMO DI KRUSKAL
+
+
 L'algoritmo Kruskal mantiene un insieme di cluster di veritici fondendo ripetutamente coppie di cluster fino a quando un singolo cluster si estende sul grafo.
 
 1) Inizialmente ogni vertice è  di per se un singolo cluster
@@ -10,89 +14,101 @@ L'algoritmo Kruskal mantiene un insieme di cluster di veritici fondendo ripetuta
 """
 
 
-def get_cluster_id(clusters, x):
+def find_cluster(clusters, target_vertex):
     """
-    La funzione serve per capire a quale cluster appartiene un certo vertice x.
+    Ricerca un vertice all'interno dei cluster.
 
-    Args: La funzione prene in input un insieme di cluster e il nome di un vertice
+    Args: La funzione prende in input una nuvola di cluster e un vertice da cercare.
 
-    Retrun: Ritorna l'identificativo del cluster che contiene x
-    """
-    for cluster_id, cluster_list in clusters.items():
-        # se x è nel cluster
-        if x in cluster_list:
-            # restituisci l'id
-            return cluster_id
-
-
-def merge_cluster(cluster, ku, kv):
-    """
-    La funzione serve a fare il merge di due cluster
-
-    Args: La funzione prende in input un insieme di cluster e l'identificativo di due cluster diversi
-
-    Return: La funzione ritorna l'insieme dei cluster con il merge effettuato
-
-    Description : Il merge va effettuato spingendo sempre a sinistra i cluster
+    Return : Ritorna il numero del cluster a cui appartiene il vertice di target.
 
     """
-    # fa il merge nel cluster più a sinistra
+    # per ogni cluster
+    for cluster in clusters:
+        # se il vertice target è allinterno del cluster corrente
+        if target_vertex in clusters[cluster]:
+            # ritornano
+            return cluster
+
+
+def merge_cluster(clusters, ku, kv):
+    """
+    Unisce due cluster
+
+    Args: La funzione prende in input una nuvola di cluster, e i due cluster di cui bisogna fare il merge
+
+    Return: Ritorna il cluster modificato
+
+    """
+    # ATTENZIONE la funzione fa il merge nel cluster che si trova più a sinistra
     if ku < kv:
-        for vertex in cluster[kv]:
-            cluster[ku].append(vertex)
-        # svuota il cluster di provenienza
-        cluster[kv] = []
+        for vertex in clusters[kv]:
+            clusters[ku].append(vertex)
+        # svuota il cluster più a destra
+        clusters[kv] = []
     else:
-        for vertex in cluster[ku]:
-            cluster[kv].append(vertex)
+        for vertex in clusters[ku]:
+            clusters[kv].append(vertex)
+        # svuota il cluster piu a destra
+        clusters[ku] = []
 
-        cluster[ku] = []
-    return cluster
+    # ritorna il cluster modificato
+    return clusters
 
 
 def kruskal(graph):
-    # creo il mst
-    mst = {}
-    # dizionario con dentro i cluster
-    cluster = {}
-    # numero progressivo che identifica ogni cluster
-    cluster_id = 0
-    # strutturo i cluster
-    for vertex in graph:
-        cluster[cluster_id] = [vertex]
-        cluster_id += 1
+    """
+    Implementazione algoritmo di Kruskal
 
-    # creo la lista degli archi
-    edges = set()
+    Args: La funzione prende in input un grafo
+
+    Retun: Ritorna un albero minimo di copertura
+
+    """
+    # crea l'albero di copertura minima vuoto
+    mst = {}
+    # crea la struttura che ospita i cluster
+    cluster = {}
+    # lista degli archi presenti nel grafo
+    edges = []
+
+    # numero progressivo che identifica ogni singolo cluster
+    nk = 0
+
+    # riempie la struttura dei cluster
+    for vertex in graph:
+        cluster[nk] = [vertex]
+        nk += 1
+
+    # riempie la lista degli archi
     for u in graph:
         for v in graph[u]:
             w = graph[u][v]
-            # si assicura che un arco la sua permutazione dei nodi non sia stata già inserita
+
             if (w, u, v) not in edges and (w, v, u) not in edges:
-                edges.add((w, u, v))
+                edges.append((w, u, v))
 
-    # numero progressivo che identifica un nodo
-    mst_id_node = 0
-
+    # numero progressivo che identifica ogni singolo nodo dell'albero che creiamo
+    nc = 0
     for edge in sorted(edges):
         w, u, v = edge
 
-        ku = get_cluster_id(cluster, u)
-        kv = get_cluster_id(cluster, v)
+        # trova il cluster a cui appartengono i vertici
+        ku = find_cluster(cluster, u)
+        kv = find_cluster(cluster, v)
 
+        # se i nodi appartengono a cluster diversi
         if ku != kv:
-            cluster = merge_cluster(cluster, ku, kv)
-            mst[mst_id_node] = (w, u, v)
-            mst_id_node += 1
+            merge_cluster(cluster, ku, kv)
+            # aggiunge il nodo all'albero
+            mst[nc] = (w, u, v)
+            nc += 1
 
-    return mst
-
-
-# {0: (66.2, 'CT', 'SR'), 1: (93.6, 'ME', 'CT'), 2: (108.5, 'PA', 'TP'), 3: (159.6, 'SR', 'CL'), 4: (209.6, 'PA', 'CT')}
+    print(mst)
 
 
 def main():
-    # grafo pesato non orientato
+    # grafo non orientato, pesato
     graph = {
         "ME": {"CT": 93.6, "PA": 225.8},
         "PA": {"CT": 209.6, "ME": 225.8, "TP": 108.5},
@@ -102,8 +118,9 @@ def main():
         "CL": {"SR": 159.6},
     }
 
-    print("Kruskal resul:", kruskal(graph))
-    # print(graph)
+    print("Prim-Jarnik : ", kruskal(graph))
+    print()
+    print("Graph:", graph)
 
 
 if __name__ == "__main__":
