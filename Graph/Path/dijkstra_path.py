@@ -1,3 +1,19 @@
+def min_pop(self,priority_queue):
+
+        min_distance , min_node = priority_queue[0]
+
+        for item in priority_queue:
+
+            current_min_distance, current_min_node = item
+
+            if current_min_distance < min_distance:
+                min_distance , min_node = current_min_distance, current_min_node
+            
+            priority_queue.remove((current_min_distance,current_min_node))
+        
+        return min_distance,min_node
+
+
 def dijkstra(self,start_node,end_node):
         #crea un dizionario in cui tutte le distanze sono settate ad infinito
         distances={i:float('inf') for i in self.__graph}
