@@ -1,3 +1,7 @@
+"""
+IMPLEMENTAZIONE DIJKSTRA CON PATH
+"""
+
 def min_pop(self,priority_queue):
 
         min_distance , min_node = priority_queue[0]
