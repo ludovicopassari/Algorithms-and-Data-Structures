@@ -83,3 +83,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# dijkstra -> {'ME': 0, 'PA': 225.8, 'CT': 93.6, 'TP': 334.3, 'SR': 159.8, 'CL': 319.4}
